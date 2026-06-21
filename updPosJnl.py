@@ -213,7 +213,6 @@ def main(input_file, output_file):
             or config.SYMBOL_COL not in input_df.columns 
             or config.INIT_PRICE_COL not in input_df.columns
         ):
-            #print(f"❌ Error: Input file must contain columns named '{config.SYMBOL_COL}' and '{config.INIT_PRICE_COL}'.")
             print(
                 f"❌ Error: Input file must contain columns named:\n"
                 f"      \"{config.CURRENCY_COL}\"\n"
@@ -227,10 +226,6 @@ def main(input_file, output_file):
     
         # Select only the required (fot t-vw request) columns and save them to the request_df
         request_df = input_df[[config.SYMBOL_COL, config.INIT_PRICE_COL]].copy()
-        
-#        # Rename the columns just in case you had different input names 
-#        #input_df.columns = [config.OUTPUT_SYMBOL_COL, config.OUTPUT_INIT_PRICE_COL]
-        
         
         # 2. Get the current prices from the tradingview
         price_df = get_current_prices(request_df)
@@ -258,26 +253,10 @@ def main(input_file, output_file):
         
         # * D. rearrange columns to their original order
         merged_df = merged_df[column_order_list]
-        
-#        merged_df = input_df.merge(
-#            price_df[[config.SYMBOL_COL, config.CURRENT_PRICE_COL]], 
-#            on=config.SYMBOL_COL, # Aligns on the Symbol key # config.OUTPUT_SYMBOL_COL = 'Symbol'
-#            how='left'            # Keeps all rows from the original input_df
-#        )
-            
+                    
         # 3. Perform calculations
         final_df = calculate_performance(merged_df)
-        
-#        # 4. Define and save the final output
-#        output_columns = [
-#            config.OUTPUT_SYMBOL_COL,     # config.OUTPUT_SYMBOL_COL = 'Symbol'
-#            config.OUTPUT_INIT_PRICE_COL, # config.OUTPUT_INIT_PRICE_COL = 'Initial Price'
-#            config.CURRENT_PRICE_COL,     # config.CURRENT_PRICE_COL='Current Price'
-#            config.PERCENT_CHANGE_COL,    # config.PERCENT_CHANGE_COL = 'Percentage Change (%)'
-#            'Performance Stars'
-#        ]
-#        final_df[output_columns].to_csv(output_file, index=False)
-        
+               
         # 4. Save the data table to csv 
         final_df.to_csv(output_file, index=False, na_rep='NaN')
         

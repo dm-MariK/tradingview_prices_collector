@@ -1,9 +1,5 @@
 # config.py
 # ---------
-# --- File Names ---
-# Define default file names, though these will be overridden by command-line args # LEGACY
-#DEFAULT_INPUT_FILE = 'symbols.csv'
-#DEFAULT_OUTPUT_FILE = 'performance_report.csv'
 
 # --- DataFrame Columns' Names ---
 # Expected Columns' Names for the input and output files, respectively:
