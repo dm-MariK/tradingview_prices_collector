@@ -39,7 +39,7 @@ PREFIXES = [
 # TradingView Screener: 'crypto'
 CRYPTO_PREFIXES = {
     'screener_name': 'crypto',
-    'prefixes': ['BYBIT:', 'BINANCE:', 'KUCOIN:', 'OKX:', 'MEXC:', 'HTX:']
+    'prefixes': ['BYBIT:', 'BINANCE:', 'KUCOIN:', 'OKX:', 'MEXC:', 'HTX:', 'BINGX:']
 }
 
 # TradingView Screener: 'america'

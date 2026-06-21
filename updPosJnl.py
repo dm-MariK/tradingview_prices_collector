@@ -163,7 +163,11 @@ def calculate_performance(df):
     
     df['Performance Stars'] = df[config.PERCENT_CHANGE_COL].apply(apply_stars)
     
-    # 3. Calculate "Value", "Current % portfolio" and "PnL"
+    # 3. Calculate total number of processed symbols
+    # (We have to do that before we append the 'TOTAL' row.)
+    total_count = len(df)
+    
+    # 4. Calculate "Value", "Current % portfolio" and "PnL"
     if config.AMOUNT_COL in df.columns: 
         # "Value"
         df[config.VALUE_COL] = df[config.AMOUNT_COL] * df[config.CURRENT_PRICE_COL]
@@ -194,7 +198,7 @@ def calculate_performance(df):
         # the numeration in the resulting table will be sequential.
         df = pd.concat([df, pd.DataFrame([total_row])], ignore_index=True)
         
-    return df
+    return df, total_count
 
 # --- Main logic --- ---------------------------------------------------------------------------
 def main(input_file, output_file):
@@ -255,12 +259,12 @@ def main(input_file, output_file):
         merged_df = merged_df[column_order_list]
                     
         # 3. Perform calculations
-        final_df = calculate_performance(merged_df)
+        final_df, total_count = calculate_performance(merged_df)
                
         # 4. Save the data table to csv 
         final_df.to_csv(output_file, index=False, na_rep='NaN')
         
-        print(f"\n✅ Successfully created performance report for {len(final_df)} symbols.")
+        print(f"\n✅ Successfully created performance report for {total_count} symbols.")
         print(f"Report saved to {output_file}")
             
     except FileNotFoundError:
